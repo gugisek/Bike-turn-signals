@@ -49,30 +49,78 @@ void loop() {
       fill_solid(leds[1], NUM_LEDS_PER_STRIP, CRGB::Black); // przod na czarno
       fill_solid(leds[2], NUM_LEDS_PER_STRIP, CRGB::Black); // tył na czarno
 
+      leds[1][8] = CRGB::White;
+      leds[1][9] = CRGB::White;
+      leds[1][10] = CRGB::White;
+      leds[1][11] = CRGB::White;
+
       leds[2][4] = CRGB::Red;
       leds[2][5] = CRGB::Red;
       leds[2][6] = CRGB::Red;
 
       FastLED.show();
-      int dot = -1;
-      int dot_tyl_prawy = 5;
-      int dot_tyl_lewy = 5;
-      while (dot <= 10) {
-        leds[0][dot] = 0xff6a00;
-        leds[1][dot] = 0xff6a00;
+      int dot_przod_lewy = 8;
+      int dot_przod_prawy = 11;
+      int dot_tyl_prawy = 6;
+      int dot_tyl_lewy = 4;
+      while (dot_przod_lewy <= 20) {
+
+        stopBTNstate= digitalRead(stopBTN);
+        if (stopBTNstate == HIGH) {
+            leds[2][11] = CRGB::Red;
+            leds[2][12] = CRGB::Red;
+            leds[2][13] = CRGB::Red;
+            leds[2][14] = CRGB::Red;
+            leds[2][15] = CRGB::Red;
+            leds[2][16] = CRGB::Red;
+            leds[2][17] = CRGB::Red;
+            leds[2][18] = CRGB::Red;
+            leds[2][19] = CRGB::Red;
+            FastLED.show();
+        }else{
+            leds[2][11] = CRGB::Black;
+            leds[2][12] = CRGB::Black;
+            leds[2][13] = CRGB::Black;
+            leds[2][14] = CRGB::Black;
+            leds[2][15] = CRGB::Black;
+            leds[2][16] = CRGB::Black;
+            leds[2][17] = CRGB::Black;
+            leds[2][18] = CRGB::Black;
+            leds[2][19] = CRGB::Black;
+            FastLED.show();
+        }
+
+        leds[1][dot_przod_lewy] = 0xff6a00;
+        leds[1][dot_przod_prawy] = 0xff6a00;
         leds[2][dot_tyl_prawy] = 0xff6a00;
         leds[2][dot_tyl_lewy] = 0xff6a00;
+
+        leds[1][8] = CRGB::White;
+        leds[1][9] = CRGB::White;
+        leds[1][10] = CRGB::White;
+        leds[1][11] = CRGB::White;
+
         leds[2][4] = CRGB::Red;
         leds[2][5] = CRGB::Red;
         leds[2][6] = CRGB::Red;
-        dot++;
+        if(dot_przod_prawy <=-6){
+          dot_przod_prawy = -6;
+        }else{
+          dot_przod_prawy--;
+        }
+        if(dot_przod_lewy >=21){
+          dot_przod_lewy = 21;
+        }else{
+          dot_przod_lewy++;
+        }
+
         if(dot_tyl_prawy <=0){
           dot_tyl_prawy = -1;
         }else{
           dot_tyl_prawy--;
         }
-        if(dot_tyl_lewy >=12){
-          dot_tyl_lewy = 12;
+        if(dot_tyl_lewy >=10){
+          dot_tyl_lewy = 10;
         }else{
           dot_tyl_lewy++;
         }
@@ -88,9 +136,8 @@ void loop() {
 
       if(eo2<=255) {
       eo2++;
-      fill_rainbow(leds[0], 10, eo2, 10);
-      fill_rainbow(leds[1], 10, eo2, 10); 
-      fill_rainbow(leds[2], 11, eo2, 10);      
+      fill_rainbow(leds[1], NUM_LEDS_PER_STRIP, eo2, 10); 
+      fill_rainbow(leds[2], NUM_LEDS_PER_STRIP, eo2, 10);      
       FastLED.show();
       currentMillis = previousMillis = millis();
         while(previousMillis + 2 >= currentMillis){
